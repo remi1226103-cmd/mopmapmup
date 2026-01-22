@@ -1,69 +1,45 @@
+let c = [], p = [], s = [], e = [];
+
+// txt 파일 로드 함수 (하나만!)
 async function load(file) {
   const r = await fetch(file);
-  return r.text().then(t => t.split("\n").filter(Boolean));
-}
 
-let c, s, e, p;
-
-Promise.all([
-  load("data/character.txt"),
-  load("data/place.txt"),
-  load("data/situation.txt"),
-  load("data/emotion.txt")
-]).then(d => [c, p, s, e] = d);
-
-function pick(a) {
-  return a[Math.floor(Math.random() * a.length)];
-}
-
-function generate() {
-  const text = `${pick(c)}\n${pick(p)}\n${pick(s)}\n${pick(e)}`;
-  document.getElementById("result").innerText = text;
-}
-
-function goWrite() {
-  const seed = document.getElementById("result").innerText.replace(/\n/g, "|");
-  location.href = `library.html?seed=${encodeURIComponent(seed)}`;
-}
-
-const params = new URLSearchParams(location.search);
-const seed = params.get("seed");
-
-if (seed && document.getElementById("seed")) {
-  document.getElementById("seed").innerText = seed.split("|").join("\n");
-}
-
-function save() {
-  const text = document.getElementById("story").value;
-  if (!text.trim()) return;
-
-  const data = JSON.parse(localStorage.getItem("lib") || "[]");
-  data.unshift({ seed, text, date: new Date().toLocaleString() });
-  localStorage.setItem("lib", JSON.stringify(data));
-  render();
-}
-
-function render() {
-  const box = document.getElementById("archive");
-  if (!box) return;
-  box.innerHTML = "";
-
-  const data = JSON.parse(localStorage.getItem("lib") || "[]");
-  data.forEach(d => {
-    box.innerHTML += `<pre>${d.seed.split("|").join("\n")}</pre><p>${d.text}</p><hr>`;
-  });
-}
-
-render();
-
-async function load(file) {
-  const r = await fetch(file);
   if (!r.ok) {
-    console.error("404 파일 없음:", file);
+    console.error("파일을 불러올 수 없음:", file);
     return [];
   }
-  return r.text()
-    .then(t => t.split("\n").map(v => v.trim()).filter(Boolean));
+
+  const text = await r.text();
+  return text
+    .split("\n")
+    .map(v => v.trim())
+    .filter(Boolean);
 }
 
+// 페이지 로드시 데이터 먼저 불러오기
+window.addEventListener("DOMContentLoaded", async () => {
+  [c, p, s, e] = await Promise.all([
+    load("data/character.txt"),
+    load("data/place.txt"),
+    load("data/situation.txt"),
+    load("data/emotion.txt")
+  ]);
+});
 
+// 안전한 랜덤 선택
+function pick(arr) {
+  if (!arr || arr.length === 0) return "(소재 없음)";
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+// 랜덤 생성
+function generate() {
+  const text = [
+    pick(c),
+    pick(p),
+    pick(s),
+    pick(e)
+  ].join("\n");
+
+  document.getElementById("result").innerText = text;
+}
