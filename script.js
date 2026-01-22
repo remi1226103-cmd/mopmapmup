@@ -1,5 +1,5 @@
 async function load(file) {
-  const r = await fetch(file);
+  const r = await fetch("words.txt");
   return r.text().then(t => t.split("\n").filter(Boolean));
 }
 
@@ -55,3 +55,4 @@ function render() {
 }
 
 render();
+
