@@ -4,6 +4,62 @@
   <meta charset="UTF-8">
   <title>기록하기</title>
 </head>
+<style>
+  body {
+    font-family:
+      "Pretendard",
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      "Noto Sans KR",
+      Arial,
+      sans-serif;
+
+    line-height: 1.6;
+    padding: 24px;
+    background: #fafafa;
+    color: #222;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 6px 12px;
+    cursor: pointer;
+  }
+
+  pre {
+    background: #f2f2f2;
+    padding: 12px;
+    white-space: pre-wrap;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+
+  textarea {
+    width: 100%;
+    max-width: 720px;
+
+    /* 🔥 여기서 1.5배 효과 */
+    height: 300px;      /* 기존 약 200px → 300px */
+    font-size: 15px;
+
+    padding: 12px;
+    line-height: 1.6;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    resize: vertical;
+  }
+
+  #archive p {
+    white-space: pre-wrap;
+  }
+
+  hr {
+    margin: 24px 0;
+  }
+</style>
+
 <body>
 
 <button onclick="goBack()">← 뒤로가기</button>
@@ -28,3 +84,4 @@
 <script src="write.js"></script>
 </body>
 </html>
+
