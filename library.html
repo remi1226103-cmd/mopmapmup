@@ -7,95 +7,92 @@
 
 </head>
 <style>
-  body {
-    font-family:
-      "Pretendard",
-      -apple-system,
-      BlinkMacSystemFont,
-      "Segoe UI",
-      Roboto,
-      "Noto Sans KR",
-      Arial,
-      sans-serif;
+body {
+  font-family:
+    "Pretendard",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Noto Sans KR",
+    Arial,
+    sans-serif;
 
-    line-height: 1.6;
-    padding: 24px;
-    background: #fafafa;
-    color: #222;
-  }
+  line-height: 1.6;
+  padding: 24px;
+  background: #fafafa;
+  color: #222;
+}
 
-  button {
-    font-size: 14px;
-    padding: 6px 12px;
-    cursor: pointer;
-  }
+/* 🔥 pre, textarea 폰트 통일 */
+pre,
+textarea {
+  font-family:
+    "Pretendard",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Noto Sans KR",
+    Arial,
+    sans-serif;
+}
 
-  pre {
-    background: #f2f2f2;
-    padding: 12px;
-    white-space: pre-wrap;
-    border-radius: 6px;
-    font-size: 14px;
-  }
+/* 선택된 소재 */
+pre {
+  background: #f2f2f2;
+  padding: 12px;
+  white-space: pre-wrap;
+  border-radius: 6px;
+  font-size: 14px;
+}
 
-  textarea {
-    width: 100%;
-    max-width: 720px;
+/* 기록 textarea */
+textarea {
+  display: block;
+  width: 100%;
+  max-width: 100%;
 
-    /* 🔥 여기서 1.5배 효과 */
-    height: 300px;      /* 기존 약 200px → 300px */
-    font-size: 15px;
+  height: 300px;
+  font-size: 15px;
+  line-height: 1.6;
 
-    padding: 12px;
-    line-height: 1.6;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    resize: vertical;
-  }
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
 
-  #archive p {
-    white-space: pre-wrap;
-  }
+  resize: vertical;
 
-  hr {
-    margin: 24px 0;
-  }
-/* =========================
-   모바일 대응
-========================= */
+  /* 🔥 모바일 가로 잘림 방지 핵심 */
+  box-sizing: border-box;
+}
+
+/* placeholder도 동일 폰트 */
+textarea::placeholder {
+  font-family:
+    "Pretendard",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Noto Sans KR",
+    Arial,
+    sans-serif;
+  color: #999;
+}
+
+/* 모바일 대응 */
 @media (max-width: 600px) {
-
   body {
     padding: 16px;
   }
 
-  .container {
-    max-width: 100%;
-    padding: 20px;
-    border-radius: 10px;
-  }
-
-  h1, h2 {
-    font-size: 18px;
-  }
-
-  button {
-    font-size: 15px;
-    padding: 10px 14px;
-    margin-bottom: 8px;
-  }
-
-  #result,
-  pre {
-    font-size: 15px;
-    padding: 14px;
-  }
-
   textarea {
-    font-size: 16px;      /* 모바일 가독성 핵심 */
-    height: 360px;        /* 모바일에서 더 길게 */
+    height: 360px;
+    font-size: 16px;
   }
 }
+
 
 </style>
 
@@ -110,7 +107,6 @@
 <textarea
   id="story"
   rows="10"
-  cols="50"
   placeholder="여기에 이야기를 써 주세요"></textarea>
 <br>
 <button onclick="save()">저장</button>
@@ -123,5 +119,6 @@
 <script src="write.js"></script>
 </body>
 </html>
+
 
 
