@@ -71,7 +71,7 @@
     margin-bottom: 8px;
   }
 
-  #result,
+  #,
   pre {
     font-size: 15px;
     padding: 14px;
@@ -81,6 +81,9 @@
     font-size: 16px;      /* 모바일 가독성 핵심 */
     height: 360px;        /* 모바일에서 더 길게 */
   }
+}
+.hidden {
+  display: none;
 }
 
   </style>
@@ -96,12 +99,13 @@
   <button onclick="generate()">🎲 생성</button>
   <button onclick="goWrite()">✍️ 기록하기</button>
 
-  <pre id="result"></pre>
+  <pre id="result" class="hidden"></pre>
 
 </div>
 
 <script src="script.js"></script>
 </body>
 </html>
+
 
 
