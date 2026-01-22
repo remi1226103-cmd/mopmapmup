@@ -56,4 +56,14 @@ function render() {
 
 render();
 
+async function load(file) {
+  const r = await fetch(file);
+  if (!r.ok) {
+    console.error("404 파일 없음:", file);
+    return [];
+  }
+  return r.text()
+    .then(t => t.split("\n").map(v => v.trim()).filter(Boolean));
+}
+
 
