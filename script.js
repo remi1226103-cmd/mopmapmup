@@ -1,103 +1,86 @@
-// 데이터 배열 (명확하게 초기화)
-let c = [];
-let p = [];
-let s = [];
-let e = [];
+// 데이터 배열
+let c = [], p = [], s = [], e = [];
 
-// txt 파일 로드 함수 (단 하나만 존재)
+// txt 파일 로드
 async function load(file) {
   try {
     const r = await fetch(file);
-
-    if (!r.ok) {
-      console.error("파일을 불러올 수 없음:", file);
-      return [];
-    }
-
+    if (!r.ok) throw new Error("404");
     const text = await r.text();
-    return text
-      .split("\n")
-      .map(v => v.trim())
-      .filter(v => v.length > 0);
-
+    return text.split("\n").map(v => v.trim()).filter(Boolean);
   } catch (err) {
-    console.error("fetch 에러:", file, err);
+    console.error("로드 실패:", file);
     return [];
   }
 }
 
-// 페이지 로드시 데이터 먼저 불러오기
+// 데이터 로드
 window.addEventListener("DOMContentLoaded", async () => {
-  try {
-    const result = await Promise.all([
-      load("data/place.txt"),
-      load("data/emotion.txt"),
-      load("data/character.txt"),
-      load("data/situation.txt")      
-    ]);
+  [c, p, s, e] = await Promise.all([
+    load("data/character.txt"),
+    load("data/place.txt"),
+    load("data/situation.txt"),
+    load("data/emotion.txt")
+  ]);
 
-    // 순서 정확히 매칭
-    c = result[0];
-    p = result[1];
-    s = result[2];
-    e = result[3];
-
-    console.log("로드 완료:", { c, p, s, e });
-
-  } catch (err) {
-    console.error("데이터 로드 실패:", err);
-  }
+  console.log("로드 완료", { c, p, s, e });
+  render();
 });
 
-// 안전한 랜덤 선택
+// 랜덤 선택
 function pick(arr) {
-  if (!Array.isArray(arr) || arr.length === 0) {
-    return "(소재 없음)";
-  }
-  return arr[Math.floor(Math.random() * arr.length)];
+  return arr.length ? arr[Math.floor(Math.random() * arr.length)] : "(소재 없음)";
 }
 
 // 랜덤 생성
 function generate() {
-  // 아직 로딩 안 됐을 경우 방지
-  if (!c.length || !p.length || !s.length || !e.length) {
-    alert("데이터를 불러오는 중입니다. 잠시 후 다시 눌러주세요.");
+  if (!c.length) {
+    alert("데이터 로딩 중입니다");
     return;
   }
 
-  const text = [
-    pick(c),
-    pick(p),
-    pick(s),
-    pick(e)
-  ].join("\n");
-
+  const text = [pick(c), pick(p), pick(s), pick(e)].join("\n");
   document.getElementById("result").innerText = text;
 }
 
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <title>기록하기</title>
-</head>
-<body>
+// 기록 페이지 이동
+function goWrite() {
+  const seed = document.getElementById("result").innerText.replace(/\n/g, "|");
+  location.href = `library.html?seed=${encodeURIComponent(seed)}`;
+}
 
-<h2>선택된 소재</h2>
-<pre id="seed"></pre>
+// ===== 기록 페이지 =====
 
-<h2>이야기 기록</h2>
-<textarea id="story" rows="10" cols="50"
-  placeholder="여기에 이야기를 써 주세요"></textarea>
-<br>
-<button onclick="save()">저장</button>
+const params = new URLSearchParams(location.search);
+const seed = params.get("seed");
 
-<hr>
+if (seed && document.getElementById("seed")) {
+  document.getElementById("seed").innerText = seed.split("|").join("\n");
+}
 
-<h2>저장된 기록</h2>
-<div id="archive"></div>
+function save() {
+  const story = document.getElementById("story").value.trim();
+  if (!story) return;
 
-<script src="script.js"></script>
-</body>
-</html>
+  const data = JSON.parse(localStorage.getItem("lib") || "[]");
+  data.unshift({ seed, story, date: new Date().toLocaleString() });
+  localStorage.setItem("lib", JSON.stringify(data));
+  render();
+}
 
+function render() {
+  const box = document.getElementById("archive");
+  if (!box) return;
+
+  const data = JSON.parse(localStorage.getItem("lib") || "[]");
+  box.innerHTML = "";
+
+  data.forEach(d => {
+    box.innerHTML += `
+      <pre>${d.seed.split("|").join("\n")}</pre>
+      <p>${d.story}</p>
+      <small>${d.date}</small>
+      <hr>
+    `;
+  });
+}
