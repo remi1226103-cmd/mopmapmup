@@ -46,6 +46,43 @@
       font-size: 15px;
       white-space: pre-wrap;
     }
+/* =========================
+   모바일 대응
+========================= */
+@media (max-width: 600px) {
+
+  body {
+    padding: 16px;
+  }
+
+  .container {
+    max-width: 100%;
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  h1, h2 {
+    font-size: 18px;
+  }
+
+  button {
+    font-size: 15px;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+  }
+
+  #result,
+  pre {
+    font-size: 15px;
+    padding: 14px;
+  }
+
+  textarea {
+    font-size: 16px;      /* 모바일 가독성 핵심 */
+    height: 360px;        /* 모바일에서 더 길게 */
+  }
+}
+
   </style>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -66,4 +103,5 @@
 <script src="script.js"></script>
 </body>
 </html>
+
 
