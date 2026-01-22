@@ -30,10 +30,10 @@ async function load(file) {
 window.addEventListener("DOMContentLoaded", async () => {
   try {
     const result = await Promise.all([
-      load("data/character.txt"),
       load("data/place.txt"),
-      load("data/situation.txt"),
-      load("data/emotion.txt")
+      load("data/emotion.txt"),
+      load("data/character.txt"),
+      load("data/situation.txt")      
     ]);
 
     // 순서 정확히 매칭
@@ -74,3 +74,30 @@ function generate() {
 
   document.getElementById("result").innerText = text;
 }
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>기록하기</title>
+</head>
+<body>
+
+<h2>선택된 소재</h2>
+<pre id="seed"></pre>
+
+<h2>이야기 기록</h2>
+<textarea id="story" rows="10" cols="50"
+  placeholder="여기에 이야기를 써 주세요"></textarea>
+<br>
+<button onclick="save()">저장</button>
+
+<hr>
+
+<h2>저장된 기록</h2>
+<div id="archive"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
+
