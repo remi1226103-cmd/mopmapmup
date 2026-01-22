@@ -67,7 +67,7 @@ function pick(arr) {
 // =====================
 function generate() {
   if (!character.length) {
-    alert("데이터를 불러오는 중입니다. 잠시 후 다시 시도하세요.");
+    alert("데이터를 불러오는 중입니다. 잠시 후 다시 눌러주세요.");
     return;
   }
 
@@ -78,8 +78,11 @@ function generate() {
     pick(situation)
   ].join("\n");
 
-  document.getElementById("result").innerText = text;
+  const resultBox = document.getElementById("result");
+  resultBox.innerText = text;
+  resultBox.classList.remove("hidden"); // 🔥 여기
 }
+
 
 // =====================
 // 기록 페이지로 이동
@@ -95,3 +98,4 @@ function goWrite() {
   const seed = result.replace(/\n/g, "|");
   location.href = `library.html?seed=${encodeURIComponent(seed)}`;
 }
+
